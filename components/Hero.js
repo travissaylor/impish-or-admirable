@@ -1,6 +1,6 @@
 export default function Hero({ title, description }) {
     return (
-        <div className="container mx-auto flex px-5 pt-24 items-center justify-center flex-col">
+        <div className="container mx-auto flex px-5 pt-10 items-center justify-center flex-col">
             <img
                 className="lg:w-2/6 md:w-3/6 w-5/6 mb-10 object-cover object-center rounded"
                 alt="Belsnickel"
