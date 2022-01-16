@@ -7,7 +7,7 @@ export default function SentimentProcessor() {
     const [loading, setLoading] = useState(false)
     const [result, setResult] = useState()
 
-    const maxLength = 400;
+    const maxLength = 400
 
     useEffect(() => {
         setMl5(require("ml5"))
@@ -16,7 +16,6 @@ export default function SentimentProcessor() {
     const processText = async (e) => {
         setLoading(true)
         const prediction = await runPredection(inputText)
-        console.log({ prediction, inputText })
         setTimeout(() => {
             setLoading(false)
             setResult(prediction.score)
@@ -26,9 +25,7 @@ export default function SentimentProcessor() {
     const runPredection = async (text) => {
         console.log({ ml5 })
         const sentiment = await ml5.sentiment("movieReviews")
-        console.log({ sentiment })
         await sentiment.ready
-
         return sentiment.predict(text)
     }
 
@@ -55,7 +52,7 @@ export default function SentimentProcessor() {
                     {loading ? (
                         <div>
                             <div
-                                style={{borderTopColor: "transparent"}}
+                                style={{ borderTopColor: "transparent" }}
                                 className="w-7 h-7 border-4 border-white border-solid rounded-full animate-spin"
                             ></div>
                         </div>
