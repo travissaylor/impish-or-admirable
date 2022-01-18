@@ -121,8 +121,8 @@ export default function SentimentProcessor() {
                                     <li className="p-3 bg-red-500 rounded-t-lg text-white">
                                         Entry Flags
                                     </li>
-                                    {reasons.map((reason) => (
-                                        <li className="p-3">
+                                    {reasons.map((reason, index) => (
+                                        <li key={index} className="p-3">
                                             {getReasonFromLabel(reason.label)}
                                         </li>
                                     ))}
