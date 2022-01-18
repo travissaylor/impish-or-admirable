@@ -2,31 +2,57 @@ import { useState } from "react"
 import { useEffect } from "react"
 
 export default function SentimentProcessor() {
-    const [ml5, setMl5] = useState()
+    const [toxicty, setToxicity] = useState()
     const [inputText, setInputText] = useState("")
     const [loading, setLoading] = useState(false)
     const [result, setResult] = useState()
+    const [reasons, setReasons] = useState([])
 
     const maxLength = 400
+    const threshold = 0.9
 
     useEffect(() => {
-        setMl5(require("ml5"))
+        setToxicity(require("@tensorflow-models/toxicity"))
     }, [])
+
+    const reasonMap = {
+        identity_attack: { name: "Identity Attack" },
+        insult: { name: "Insulting" },
+        obscene: { name: "Obscene Language" },
+        severe_toxicity: { name: "Severe Toxicity" },
+        sexual_explicit: { name: "Sexually Explicit" },
+        threat: { name: "Threatening" },
+    }
+
+    const getReasonFromLabel = (reasonLabel) => {
+        return reasonMap[reasonLabel].name
+    }
 
     const processText = async (e) => {
         setLoading(true)
-        const prediction = await runPredection(inputText)
+        const predictions = await runPredection(inputText)
+
+        const { results: toxicityRes } = predictions.find(
+            (prediction) => prediction.label === "toxicity"
+        )
+
+        const matches = predictions.filter(
+            (prediction) =>
+                prediction.results[0].match !== false &&
+                prediction.label !== "toxicity"
+        )
+
         setTimeout(() => {
             setLoading(false)
-            setResult(prediction.score)
+            setResult(toxicityRes[0].probabilities[0])
+            setReasons(matches)
         }, 300)
     }
 
     const runPredection = async (text) => {
-        console.log({ ml5 })
-        const sentiment = await ml5.sentiment("movieReviews")
-        await sentiment.ready
-        return sentiment.predict(text)
+        const model = await toxicty.load(threshold)
+        const predictions = await model.classify([text])
+        return predictions
     }
 
     return (
@@ -89,6 +115,20 @@ export default function SentimentProcessor() {
                             {result >= 0.8 || result <= 0.2 ? "Very" : ""}{" "}
                             {result >= 0.5 ? "Admirable" : "Impish"}
                         </h1>
+                        {reasons.length > 0 && (
+                            <div className="w-full bg-white rounded-lg shadow mt-5">
+                                <ul className="divide-y-2 divide-gray-100">
+                                    <li className="p-3 bg-red-500 rounded-t-lg text-white">
+                                        Entry Flags
+                                    </li>
+                                    {reasons.map((reason) => (
+                                        <li className="p-3">
+                                            {getReasonFromLabel(reason.label)}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
                     </div>
                 </>
             )}
