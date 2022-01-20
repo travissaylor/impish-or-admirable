@@ -59,7 +59,7 @@ export default function Header() {
                     <span className="ml-1 sm:text-xl sm:inline-block hidden">Belsnickeltron</span>
                 </a>
                 <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
-                    <a href="https://github.com/travissaylor/impish-or-admirable" target="_blank" className="mr-5 hover:text-gray-900 cursor-pointer flex items-center">
+                    <a href="https://github.com/travissaylor/impish-or-admirable" target="_blank" rel="noreferrer" className="mr-5 hover:text-gray-900 cursor-pointer flex items-center">
                         <svg
                             fill="currentColor"
                             strokeLinecap="round"
