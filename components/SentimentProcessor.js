@@ -1,5 +1,4 @@
-import { useState } from "react"
-import { useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 
 export default function SentimentProcessor() {
     const [toxicty, setToxicity] = useState()
@@ -7,6 +6,7 @@ export default function SentimentProcessor() {
     const [loading, setLoading] = useState(false)
     const [result, setResult] = useState()
     const [reasons, setReasons] = useState([])
+    const resultsRef = useRef(null)
 
     const maxLength = 400
     const threshold = 0.9
@@ -46,6 +46,7 @@ export default function SentimentProcessor() {
             setLoading(false)
             setResult(toxicityRes[0].probabilities[0])
             setReasons(matches)
+            resultsRef?.current.scrollIntoView()
         }, 300)
     }
 
@@ -111,7 +112,7 @@ export default function SentimentProcessor() {
                             Cheer or fear? Belsnickel is here! I judge this text
                             as ...{" "}
                         </p>
-                        <h1 className="text-3xl">
+                        <h1 className="text-3xl" ref={resultsRef}>
                             {result >= 0.8 || result <= 0.2 ? "Very" : ""}{" "}
                             {result >= 0.5 ? "Admirable" : "Impish"}
                         </h1>
