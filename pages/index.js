@@ -1,5 +1,6 @@
 import Head from "next/head"
 import Image from "next/image"
+import Header from "../components/Header"
 import Hero from "../components/Hero"
 import SentimentProcessor from "../components/SentimentProcessor"
 
@@ -10,7 +11,7 @@ export default function Home() {
                 <title>Impish or Admirable</title>
                 <meta
                     name="description"
-                    content="Cheer or fear? Belsnickel is here! The Belsnickel will decide if you are impish or admirable using text sentiment artificial intelligence."
+                    content="Cheer or fear? Belsnickel is here! The Belsnickel will decide if you are impish or admirable using artificial intelligence."
                 />
                 <meta
                     name="viewport"
@@ -29,10 +30,11 @@ export default function Home() {
                     content="https://www.denofgeek.com/wp-content/uploads/2020/06/the-office-dwight-christmas.jpg"
                 />
             </Head>
+            <Header />
             <div className="container mx-auto flex px-5 py-10 items-center justify-center flex-col">
                 <Hero
                     title="Impish or Admirable"
-                    description="The belsnickel will decide if you are impish or admirable."
+                    description="The Belsnickel will decide if you are impish or admirable using artificial intelligence."
                 />
                 <SentimentProcessor />
             </div>
